@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cricket game</title>
+    <style>
+        body{
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: blueviolet;
+            color: white;
+            
+        
+        
+            
+        }
+        .result-container{
+            width: 100%;
+            height: 400px;
+           
+         
+          color: white;
+            background-color: green;
+        }
+        button{
+           
+            margin: 20px;
+            
+
+            
+        }
+        .reset{
+            width: 150px;
+            height: 35px;
+            border-radius: 30px;
+            background-color: rgb(172, 124, 217);
+            border: none;
+        }
+        .button1:hover{
+                width: 105px ;
+                height: 105px;
+        }
+        .button2:hover{
+                width: 105px ;
+                height: 105px;
+        }
+        .button3:hover{
+                width: 105px ;
+                height: 105px;
+        }
+
+            
+        
+       
+       
+    </style>
+</head>
+<body>
+    <h1>cricket game</h1>
+    
+    <button onclick="
+     let computerchoice = gencc();
+     let result = getresult('bat' , computerchoice);
+     showresult('bat' , computerchoice , result)
+    "><img width="100px" height="100px"  src="1-1-2-short-handle-virat-kohli-grand-edition-tennis-cricket-bat-original-imaf3j2zhmdnays3.webp" alt="bat" class="button1"></button>
+
+<button onclick="
+computerchoice = gencc();
+ result =  getresult('stump' , computerchoice);
+ showresult('stump' , computerchoice , result);
+"><img  width="100px" height="100px" src="spring-and-iron-base-cricket-stumps_1.jpg" alt="stump" class="button3"></button>
+
+    <button onclick="
+     computerchoice = gencc();
+     result = getresult('ball' , computerchoice);
+     showresult('ball' , computerchoice , result);
+    "><img  width="100px" height="100px" src="istockphoto-157181750-612x612.jpg" alt="ball" class="button2"></button>
+
+    
+ <div class="result-container">
+    <h1 class="user-move"></h1>
+    <h1 class="computer-move"></h1>
+    <h1 class="result"></h1>
+    <h1 class="score"></h1>
+
+
+    <button class="reset" onclick="localStorage.clear() 
+     Resetscore();
+     showresult();
+       ">Reset</button>
+       </div>
+<script>
+    let strscore = localStorage.getItem('score');
+    let score;
+    Resetscore(strscore);
+    function Resetscore(strscore){
+     score = strscore ? JSON.parse(strscore) : {
+        win : 0,
+        lost : 0,
+        tie : 0,
+       
+
+    };
+
+    score.displayscore = function(){
+           return `won : ${score.win}
+            lost : ${score.lost}
+             tie : ${score.tie}`;
+             showresult();
+             
+        };
+    }
+
+    function gencc(){
+        
+         let randomnumber = Math.random()*3;
+   
+        if(randomnumber > 0 && randomnumber <= 1){
+        return 'bat';
+    
+        
+        }   
+        else if(randomnumber > 1 && randomnumber <=2){
+        return 'ball';
+       
+        }
+        else {
+        return 'stump'
+        }  
+    }
+
+  
+    function getresult(usermove , computermove){
+        if(usermove === 'bat'){
+         if(computermove === 'bat'){
+            score.tie++;
+           return 'it is tei.';
+        
+          }
+         else if(computermove === 'stump'){
+            score.lost++;
+         return 'computer won.';
+         
+         }
+         else if(computermove === 'ball'){
+            score.win++;
+         return 'you won.';
+         
+        }
+    }
+
+
+    else if(usermove === 'ball'){
+        if(computermove === 'ball'){
+            score.tie++;
+        return 'it is tei.';
+       
+        }
+        else if(computermove === 'stump'){
+            score.win++;
+        return 'you won.';
+        
+        }
+        else if(computermove === 'bat'){
+            score.lost++;
+        return 'computer won.';
+       
+     }
+      }
+
+    else if(usermove === 'stump'){
+        if(computermove === 'stump'){
+            score.tie++;
+       
+        return 'it is tei.';
+        }
+        else if(computermove === 'bat'){
+            score.win++;
+        return 'you won.';
+        
+        }
+        else if(computermove === 'ball'){
+            score.lost++;
+        return 'computer won.';
+        
+         }
+      }
+
+      
+
+}
+function showresult(usermove , computermove , result ){
+    //console.log(score);
+    localStorage.setItem('score',JSON.stringify(score))
+    document.querySelector('.user-move').innerText = 
+    usermove !== undefined ? `you : ${usermove}` : ' ';
+    
+    document.querySelector('.computer-move').innerText =  
+    computermove !== undefined ?  `computer  : ${computermove}`:' ';
+
+    document.querySelector('.result').innerText =  
+    result !== undefined ? `result :  ${result}`:' ';
+
+    document.querySelector('.score').innerText =  
+    score !== undefined ? ` ${score.displayscore()}`:' ';
+
+        
+        
+      }
+
+</script>
+
+
+</body>
+</html>
